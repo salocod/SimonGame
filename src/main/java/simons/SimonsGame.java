@@ -27,20 +27,21 @@ public class SimonsGame {
     private int contJogador, dificuldade, nivel;
     private JButton btGreen, btRed, btYellow, btBlue;
     private JLabel jlNivel;
-    private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+    private ScheduledExecutorService executorService;
 
     public SimonsGame(int dificuldade, JButton btGreen, JButton btRed, JButton btYellow, JButton btBlue, JLabel jlNivel) {
         this.dificuldade = dificuldade;
         this.contJogador = 0;
         this.nivel = 1;
         this.sequencia = new int[determinarSequencia()];
-        this.seqJogador = new int[sequencia.length];
+        this.seqJogador = new int[determinarSequencia()];
         this.btGreen = btGreen;
         this.btRed = btRed;
         this.btYellow = btYellow;
         this.btBlue = btBlue;
         this.jlNivel = jlNivel;
         gerarSequencia();
+        this.executorService = Executors.newSingleThreadScheduledExecutor();
     }
 
     public int determinarSequencia() {
@@ -56,7 +57,7 @@ public class SimonsGame {
 
     private void gerarSequencia() {
         Random random = new Random();
-        IntStream.range(0, sequencia.length).forEach(i -> sequencia[i] = random.nextInt(1, 5));
+        IntStream.range(0, determinarSequencia()).forEach(i -> sequencia[i] = random.nextInt(1, 5));
     }
 
     private Color getColor(int num) {
@@ -76,26 +77,44 @@ public class SimonsGame {
     }
 
     public void startGame() {
-        while (nivel <= sequencia.length && areEqualUntilIndex()) {
+        while (nivel <= determinarSequencia() && areEqualUntilIndex()) {
             piscar();
             aguardarJogada();
             if (!areEqualUntilIndex()) {
-                JOptionPane.showMessageDialog(null, "Voce errou!");
-                executorService.shutdown();
-                break;
+                restart();
+                return;
             }
             nivel++;
-            jlNivel.setText("Nivel: " + nivel + "/" + determinarSequencia());
+            jlNivel.setText("Nível: " + nivel + "/" + determinarSequencia());
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        if (nivel > sequencia.length) {
-            JOptionPane.showMessageDialog(null, "Voce venceu!");
+        if (nivel > determinarSequencia()) {
+            JOptionPane.showMessageDialog(null, "Você venceu!");
             executorService.shutdown();
         }
+    }
+
+    private void restart() {
+        playSound(5);
+        JOptionPane.showMessageDialog(null, "Você errou!");
+        nivel = 1;
+        contJogador = 0;
+        gerarSequencia();
+        seqJogador = new int[sequencia.length];
+        if (executorService != null && !executorService.isShutdown()) {
+            executorService.shutdown();
+        }
+        executorService = Executors.newSingleThreadScheduledExecutor();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        startGame();
     }
     
     private void aguardarJogada() {
@@ -182,12 +201,13 @@ public class SimonsGame {
             case 2 -> playSoundBack("simonSound2.mp3");
             case 3 -> playSoundBack("simonSound3.mp3");
             case 4 -> playSoundBack("simonSound4.mp3");
+            case 5 -> playSoundBack("soundLose.mp3");
         }
     }
 
     private void playSoundBack(String soundFile) {
         try {
-            InputStream is = new FileInputStream("C:\\Users\\nico\\Desktop\\Simons\\src\\main\\java\\Sounds\\" + soundFile);
+            InputStream is = new FileInputStream("src\\main\\java\\Sounds\\" + soundFile);
             Player player = new Player(is);
             new Thread(() -> {
                 try {
@@ -202,7 +222,7 @@ public class SimonsGame {
     }
 
     public void printa() {
-        System.out.println(IntStream.range(0, sequencia.length)
+        System.out.println(IntStream.range(0, determinarSequencia())
                     .mapToObj(i -> String.valueOf(sequencia[i]))
                     .reduce("", (s1, s2) -> s1 + s2) + System.lineSeparator() +
                     IntStream.range(0, contJogador)

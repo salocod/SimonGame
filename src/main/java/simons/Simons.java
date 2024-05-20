@@ -14,7 +14,7 @@ public class Simons extends JFrame{
         setResizable(false);
         setLocationRelativeTo(null);
     }
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         buttonGroupOpcoes = new javax.swing.ButtonGroup();
@@ -40,12 +40,13 @@ public class Simons extends JFrame{
         DificilJRB.setActionCommand("3");
         HardCoreJRB.setActionCommand("4");
         ImpossivelJRB.setActionCommand("5");
-        
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         background.setLayout(new java.awt.CardLayout());
 
         jbJogar.setText("Jogar");
+        jbJogar.setEnabled(false);
         jbJogar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbJogarActionPerformed(evt);
@@ -57,18 +58,43 @@ public class Simons extends JFrame{
 
         buttonGroupOpcoes.add(FacilJRB);
         FacilJRB.setText("Facil");
+        FacilJRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                FacilJRBActionPerformed(evt);
+            }
+        });
 
         buttonGroupOpcoes.add(MedioJRB);
         MedioJRB.setText("Medio");
+        MedioJRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MedioJRBActionPerformed(evt);
+            }
+        });
 
         buttonGroupOpcoes.add(DificilJRB);
         DificilJRB.setText("Dificil");
+        DificilJRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DificilJRBActionPerformed(evt);
+            }
+        });
 
         buttonGroupOpcoes.add(HardCoreJRB);
         HardCoreJRB.setText("HardCore");
+        HardCoreJRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HardCoreJRBActionPerformed(evt);
+            }
+        });
 
         buttonGroupOpcoes.add(ImpossivelJRB);
         ImpossivelJRB.setText("Impossivel");
+        ImpossivelJRB.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ImpossivelJRBActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Selecione uma dificuldade:");
 
@@ -211,31 +237,51 @@ public class Simons extends JFrame{
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void btGreenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btGreenActionPerformed
+    private void btGreenActionPerformed(java.awt.event.ActionEvent evt) {                                        
         sim.adicionaSequencia(btGreen, 1);
-    }//GEN-LAST:event_btGreenActionPerformed
+    }                                       
 
-    private void btRedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRedActionPerformed
+    private void btRedActionPerformed(java.awt.event.ActionEvent evt) {                                      
         sim.adicionaSequencia(btRed, 2);
-    }//GEN-LAST:event_btRedActionPerformed
+    }                                     
 
-    private void btYellowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btYellowActionPerformed
+    private void btYellowActionPerformed(java.awt.event.ActionEvent evt) {                                         
         sim.adicionaSequencia(btYellow, 3);
-    }//GEN-LAST:event_btYellowActionPerformed
+    }                                        
 
-    private void btBlueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBlueActionPerformed
+    private void btBlueActionPerformed(java.awt.event.ActionEvent evt) {                                       
         sim.adicionaSequencia(btBlue, 4);
-    }//GEN-LAST:event_btBlueActionPerformed
+    }                                      
 
-    private void jbJogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbJogarActionPerformed
+    private void jbJogarActionPerformed(java.awt.event.ActionEvent evt) {                                        
         jpOpcoes.setVisible(false);
         jpJogo.setVisible(true);
         sim = new SimonsGame(Integer.parseUnsignedInt(buttonGroupOpcoes.getSelection().getActionCommand()), btGreen, btRed, btYellow, btBlue, jlNivel);
         jlNivel.setText("Nivel: 1/" + sim.determinarSequencia());
         new Thread(() -> sim.startGame()).start();
-    }//GEN-LAST:event_jbJogarActionPerformed
+    }                                       
+
+    private void FacilJRBActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        jbJogar.setEnabled(true);
+    }                                        
+
+    private void MedioJRBActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        jbJogar.setEnabled(true);
+    }                                        
+
+    private void DificilJRBActionPerformed(java.awt.event.ActionEvent evt) {                                           
+        jbJogar.setEnabled(true);
+    }                                          
+
+    private void HardCoreJRBActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        jbJogar.setEnabled(true);
+    }                                           
+
+    private void ImpossivelJRBActionPerformed(java.awt.event.ActionEvent evt) {                                              
+        jbJogar.setEnabled(true);
+    }                                             
     
     public static void main(String args[]) {
         EventQueue.invokeLater(new Runnable() {
@@ -245,7 +291,7 @@ public class Simons extends JFrame{
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JRadioButton DificilJRB;
     private javax.swing.JRadioButton FacilJRB;
     private javax.swing.JRadioButton HardCoreJRB;
@@ -263,5 +309,5 @@ public class Simons extends JFrame{
     private javax.swing.JLabel jlTitulo;
     private javax.swing.JPanel jpJogo;
     private javax.swing.JPanel jpOpcoes;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 }
