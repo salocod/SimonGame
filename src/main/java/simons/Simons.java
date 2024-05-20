@@ -1,4 +1,4 @@
-package com.salocod.simons;
+package simons;
 
 import java.awt.EventQueue;
 
